@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model PaginatedList<DiningGuideRemake.Models.Restaurant>
+
+@{
+    ViewData["Title"] = "Restaurant lists";
+}
+<div id="bgSearch">
+    <div id="restaurantSearch" class="form-container">
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color">
+                <p>
+                    Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                    <input type="submit" value="Search" class="btn action-button" />
+                    <a class="btn action-button" role="button" asp-action="Index">Back to list</a>
+                </p>
+            </div>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-dark" id="tableSearch" border="0">
+            <thead>
+                <tr>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Name
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["AddressSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Address
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["DescriptionSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Description
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["RatingSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Rating
+                        </a>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Decription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rating)<i class="fa fa-star" aria-hidden="true"></i>
+                        </td>
+                        <td>
+                            @if (HttpContextAccessor.HttpContext.Session.GetInt32("_Type") == (int)item.IDUser)
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                <span> | </span>
+                                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                <span> | </span>
+                            }
+                            <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="info">
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn action-button @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn action-button @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>

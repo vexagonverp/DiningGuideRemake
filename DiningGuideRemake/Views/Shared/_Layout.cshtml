@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    @using Microsoft.AspNetCore.Http
+    @inject IHttpContextAccessor HttpContextAccessor
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Salt</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/fonts/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light navbar-expand-md fixed-top navbar-dark navigation-clean-button">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Salt</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Search">Search</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">More</a>
+                            <div class="dropdown-menu"><a class="dropdown-item" href="#">Featured restaurants</a><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="About">About us</a><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Contact">Contact us</a></div>
+                        </li>
+
+                    </ul>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("_Email") != null)
+                    {
+                        <span class="navbar-text actions">
+                            <a class="login" asp-area="" asp-controller="Home" asp-action="Logout">Log Out</a>
+                            <a class="btn btn-light action-button" role="button" asp-area="" asp-controller="Home" asp-action="Profile">Profile</a>
+                            <span>@HttpContextAccessor.HttpContext.Session.GetString("_LastName")</span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="navbar-text actions">
+                            <a class="login" asp-area="" asp-controller="Home" asp-action="Login">Log In</a>
+                            <a class="btn btn-light action-button" role="button" asp-area="" asp-controller="Home" asp-action="Register">Sign Up</a>
+                        </span>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    @RenderBody()
+
+    <div class="footer-dark">
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>About</h3>
+                        <ul>
+                            <li><a asp-area="" asp-controller="Home" asp-action="About">Salt</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Team</a></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 item text">
+                        <h3>SALT COMPANY LTD.</h3>
+                        <p> <b>Address: </b>No.07 Phan Ke Binh Rd, Da Kao Ward, </br> District 1, HCMC</p>
+                        <p> <b>Representative:</b> Verp </p>
+                    </div>
+                    <div class="col item social"><h3>CONNECT VIA</h3><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div>
+                </div>
+                <p class="copyright">Salt © 2021. <i>The leading cooking spice for your entire life.</i></p>
+            </div>
+        </footer>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/fonts/all.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

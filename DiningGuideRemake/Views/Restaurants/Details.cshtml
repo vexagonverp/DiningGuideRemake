@@ -1,0 +1,22 @@
+﻿@model DiningGuideRemake.Models.Restaurant
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div id="Prof_page">
+    <div class="info">
+        <h1>Restaurant detail</h1>
+
+
+        <h2>Name : @Html.DisplayFor(model => model.Name)</h2>
+        <h3> Rating : @Html.DisplayFor(model => model.Rating)<i class="fa fa-star" aria-hidden="true"></i></h3>
+        <h4>@Html.DisplayFor(model => model.Decription)</h4>
+
+
+        <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
